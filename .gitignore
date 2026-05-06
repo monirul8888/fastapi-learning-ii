@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+
+# Virtual env
+venv/
+env/
+myenv/
+
+# Env vars
+.env
+
+
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
