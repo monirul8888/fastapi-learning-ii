@@ -52,3 +52,12 @@ def create_student(post : Student):
     return {"data" : post}
 
 
+
+@app.get("/student")
+def student():
+    cursor.execute(""" SELECT * FROM STUDENT """)
+    data = cursor.fetchall()
+
+    return {"Data" : data}
+
+
