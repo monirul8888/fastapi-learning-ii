@@ -65,3 +65,13 @@ def student():
     return {"Data" : data}
 
 
+@app.get("/student/{id}")
+def student(id : int):
+    cursor.execute(""" SELECT * FROM STUDENT WHERE id = %s """, (id,))
+    data = cursor.fetchone()
+
+
+
+    return {"Data" : data}
+
+
