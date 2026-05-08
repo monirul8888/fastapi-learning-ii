@@ -49,7 +49,11 @@ def about():
 
 @app.post("/post")
 def create_student(post : Student):
-    return {"data" : post}
+    cursor.execute(""" INSERT INTO STUDENT (NAME, ID, DEPT) VALUES(%s, %s, %s) RETURNING * """,
+                    (post.name, post.id, post.dept) )
+    new_post = cursor.fetchone()
+    conn.commit()
+    return {"data" : new_post}
 
 
 
