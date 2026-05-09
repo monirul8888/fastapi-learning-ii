@@ -39,6 +39,13 @@ def CreateStudent(student : Student, db: session = Depends(get_db)):
     return {"New Student " : new_student}
 
 
+@app.get("/students")
+def get_students(db : session = Depends(get_db)):
+    students = db.query(models.Student).all()
+
+    return {"Students" : students}
+
+
 
 
 
