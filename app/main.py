@@ -15,15 +15,32 @@ app = FastAPI()
 models.Base.metadata.create_all(bind = engine)
 
 
-@app.get("data/")
-
-def students(db:session = Depends(get_db)):
-    return {"status" : "Connected Table"}
-
 class Student(BaseModel):
     name : str
     id : int
     dept : str
+
+@app.get("/data")
+def students(db:session = Depends(get_db)):
+    return {"status" : "Connected Table"}
+
+
+@app.post("/students")
+def CreateStudent(student : Student, db: session = Depends(get_db)):
+    new_student = models.Student(
+        name = student.name,
+        id = student.id,
+        dept = student.dept,
+    )
+    db.add(new_student)
+    db.commit()
+    db.refresh(new_student)
+
+    return {"New Student " : new_student}
+
+
+
+
 
 
 while True:
