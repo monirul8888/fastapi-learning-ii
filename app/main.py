@@ -45,6 +45,13 @@ def get_students(db : session = Depends(get_db)):
 
     return {"Students" : students}
 
+@app.get("/students/{id}")
+def get_students(id : int, db : session = Depends(get_db)):
+    students = db.query(models.Student).filter(models.Student.id == id).first()
+
+    return {"Student ", students}
+
+
 
 
 
