@@ -7,12 +7,12 @@ class StudentCreate(BaseModel):
 
 
 class StudentResponse(StudentCreate):
-    cgpa:float
+   
 
-    class config:
+    class Config:
         orm_model = True
 
-        
+
 
 
 
