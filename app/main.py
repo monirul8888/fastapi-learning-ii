@@ -36,44 +36,46 @@ def get_students(db : Session = Depends(get_db)):
 
     return students
 
-# @app.get("/students/{id}")
-# def get_students(id : int, db : session = Depends(get_db)):
-#     students = db.query(models.Student).filter(models.Student.id == id).first()
+@app.get("/students/{id}", response_model=schemas.StudentResponse)
+def get_students(id : int, db : Session = Depends(get_db)):
+    students = db.query(models.Student).filter(models.Student.id == id).first()
 
-#     return {"Student ", students}
+    return  students
 
-# @app.put("/students/{id}")
-# def update_students(id : int, update_student : Student, db : session = Depends(get_db)):
 
-#     st_query = db.query(models.Student).filter(models.Student.id == id)
-#     st = st_query.first()
 
-#     if not st:
-#         raise HTTPException(status_code=404, detail= f"Student with {id} Not Found")
+@app.put("/students/{id}", response_model=schemas.StudentResponse)
+def update_students(id : int, update_student : schemas.StudentCreate, db : Session = Depends(get_db)):
+
+    st_query = db.query(models.Student).filter(models.Student.id == id)
+    st = st_query.first()
+
+    if not st:
+        raise HTTPException(status_code=404, detail= f"Student with {id} Not Found")
     
-#     update_data = update_student.model_dump()
+    update_data = update_student.model_dump()
 
-#     st_query.update(update_data, synchronize_session = False )
+    st_query.update(update_data, synchronize_session = False )
 
-#     db.commit()
-#     db.refresh(st)
+    db.commit()
+    db.refresh(st)
 
-#     return {"Updated Student ": st}
+    return st
 
 
 
-# @app.delete("/students/{id}")
-# def delete_students(id : int, db : session = Depends(get_db)):
+@app.delete("/students/{id}")
+def delete_students(id : int, db : Session = Depends(get_db)):
 
-#     st_query = db.query(models.Student).filter(models.Student.id == id)
-#     st = st_query.first()
+    st_query = db.query(models.Student).filter(models.Student.id == id)
+    st = st_query.first()
 
-#     if not st:
-#         raise HTTPException(status_code=404, detail= f"Student with {id} Not Found")
-#     st_query.delete(synchronize_session = False )
-#     db.commit()
+    if not st:
+        raise HTTPException(status_code=404, detail= f"Student with {id} Not Found")
+    st_query.delete(synchronize_session = False )
+    db.commit()
     
-#     return {"msg" , f"Student ID = {id} Deleted Successfully"}
+    return {"msg" , f"Student ID = {id} Deleted Successfully"}
 
     
 
