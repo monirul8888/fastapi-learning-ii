@@ -6,8 +6,9 @@ class StudentCreate(BaseModel):
     dept : str
 
 
-class StudentResponse(StudentCreate):
-   
+class StudentResponse(BaseModel):
+    name:str
+    dept:str
 
     class Config:
         orm_model = True
