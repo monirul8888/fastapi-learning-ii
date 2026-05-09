@@ -1,12 +1,24 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from pydantic import BaseModel
 import psycopg2
 import time
-
 from psycopg2.extras import RealDictCursor 
+from . import models
+
+from sqlalchemy.orm import session
+from .database import engine, get_db
+
+
 
 app = FastAPI()
 
+models.Base.metadata.create_all(bind = engine)
+
+
+@app.get("data/")
+
+def students(db:session = Depends(get_db)):
+    return {"status" : "Connected Table"}
 
 class Student(BaseModel):
     name : str
