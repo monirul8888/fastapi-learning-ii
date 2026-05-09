@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 import psycopg2
 import time
@@ -50,6 +50,25 @@ def get_students(id : int, db : session = Depends(get_db)):
     students = db.query(models.Student).filter(models.Student.id == id).first()
 
     return {"Student ", students}
+
+@app.put("/students/{id}")
+def update_students(id : int, update_student : Student, db : session = Depends(get_db)):
+
+    st_query = db.query(models.Student).filter(models.Student.id == id)
+    st = st_query.first()
+
+    if not st:
+        raise HTTPException(status_code=404, detail= f"Student with {id} Not Found")
+    
+    update_data = update_student.model_dump()
+
+    st_query.update(update_data, synchronize_session = False )
+
+    db.commit()
+    db.refresh(st)
+
+    return {"Updated Student ": st}
+
 
 
 
