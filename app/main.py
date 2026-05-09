@@ -71,6 +71,26 @@ def update_students(id : int, update_student : Student, db : session = Depends(g
 
 
 
+@app.delete("/students/{id}")
+def delete_students(id : int, db : session = Depends(get_db)):
+
+    st_query = db.query(models.Student).filter(models.Student.id == id)
+    st = st_query.first()
+
+    if not st:
+        raise HTTPException(status_code=404, detail= f"Student with {id} Not Found")
+    st_query.delete(synchronize_session = False )
+    db.commit()
+    
+    return {"msg" , f"Student ID = {id} Deleted Successfully"}
+
+    
+
+
+
+
+
+
 
 
 
