@@ -8,6 +8,8 @@ from . import models, schemas
 from sqlalchemy.orm import Session
 from .database import engine, get_db
 
+from typing import List
+
 
 app = FastAPI()
 
@@ -28,11 +30,11 @@ def CreateStudent(student : schemas.StudentCreate, db: Session = Depends(get_db)
     return new_student
 
 
-# @app.get("/students")
-# def get_students(db : session = Depends(get_db)):
-#     students = db.query(models.Student).all()
+@app.get("/students", response_model=List[schemas.StudentResponse])
+def get_students(db : Session = Depends(get_db)):
+    students = db.query(models.Student).all()
 
-#     return {"Students" : students}
+    return students
 
 # @app.get("/students/{id}")
 # def get_students(id : int, db : session = Depends(get_db)):
