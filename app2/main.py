@@ -16,6 +16,12 @@ def get_student(db : Session = Depends(get_db)):
     return st
 
 
+@app.get("/students/{id}", response_model=schemas.StudentResponse)
+def get_student(id : int, db : Session = Depends(get_db), ):
+    student = db.query(models.Student2).filter(models.Student2.id == id).first()
+    return student
+
+
 @app.post("/students", response_model=schemas.StudentResponse)
 def create_student(student : schemas.CreateStudent, db : Session = Depends(get_db)):
     new_st = models.Student2(**student.model_dump())
