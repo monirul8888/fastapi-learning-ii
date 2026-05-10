@@ -4,6 +4,8 @@ from . database import get_db, engine
 from . import models, schemas
 from typing import List
 
+from . import utils
+
 app = FastAPI()
 models.Base.metadata.create_all(bind = engine)
 @app.get("/")
@@ -34,6 +36,8 @@ def create_student(student : schemas.CreateStudent, db : Session = Depends(get_d
 
 @app.post("/user", response_model=schemas.UserResponse)
 def create_user(user : schemas.CreateUser, db : Session = Depends(get_db)):
+    hashedPassword = utils.hash_password(user.password)
+    user.password = hashedPassword
     new_user = models.User(**user.model_dump())
     db.add(new_user)
     db.commit()
