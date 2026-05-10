@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from . database import get_db, engine
 from . import models, schemas
@@ -36,6 +36,16 @@ def create_student(student : schemas.CreateStudent, db : Session = Depends(get_d
 
 @app.post("/user", response_model=schemas.UserResponse)
 def create_user(user : schemas.CreateUser, db : Session = Depends(get_db)):
+    existing_user = db.query(models.User).filter(
+        models.User.email == user.email
+    ).first()
+
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Email {user.email} already taken"
+        )
+
     hashedPassword = utils.hash_password(user.password)
     user.password = hashedPassword
     new_user = models.User(**user.model_dump())
