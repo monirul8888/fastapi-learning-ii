@@ -16,7 +16,7 @@ app = FastAPI()
 models.Base.metadata.create_all(bind = engine)
 
 
-@app.get("/data")
+@app.get("/")
 def students(db:Session = Depends(get_db)):
     return {"status" : "Connected Table"}
 
