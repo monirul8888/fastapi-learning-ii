@@ -32,7 +32,7 @@ def create_student(student : schemas.CreateStudent, db : Session = Depends(get_d
 
 
 
-@app.post("/user", response_model=schemas.CreateUser)
+@app.post("/user", response_model=schemas.UserResponse)
 def create_user(user : schemas.CreateUser, db : Session = Depends(get_db)):
     new_user = models.User(**user.model_dump())
     db.add(new_user)
