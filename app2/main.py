@@ -29,3 +29,15 @@ def create_student(student : schemas.CreateStudent, db : Session = Depends(get_d
     db.commit()
     db.refresh(new_st)
     return new_st
+
+
+
+@app.post("/user", response_model=schemas.CreateUser)
+def create_user(user : schemas.CreateUser, db : Session = Depends(get_db)):
+    new_user = models.User(**user.model_dump())
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return new_user
+

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 class CreateStudent(BaseModel):
     name : str
@@ -8,4 +8,10 @@ class CreateStudent(BaseModel):
 class StudentResponse(CreateStudent):
     class Config:
         orm_model = True
+
+
+class CreateUser(BaseModel):
+    email : EmailStr
+    password : str
+    
 
