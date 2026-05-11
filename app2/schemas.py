@@ -8,6 +8,8 @@ class CreateStudent(BaseModel):
     dept : str
 
 class StudentResponse(CreateStudent):
+    creator_id: int
+    id : int
     class Config:
         orm_model = True
 

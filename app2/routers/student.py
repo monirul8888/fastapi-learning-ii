@@ -45,7 +45,8 @@ def create_student(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(oauth2.get_current_user)
 ):
-    new_student = models.Student2(**student.model_dump())
+    new_student = models.Student2(**student.model_dump(),
+                                  creator_id = current_user.id)
 
     db.add(new_student)
     db.commit()
