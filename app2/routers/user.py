@@ -5,9 +5,11 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 from .. import utils
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/user"
+)
 
-@router.post("/user", response_model=schemas.UserResponse)
+@router.post("/", response_model=schemas.UserResponse)
 def create_user(user : schemas.CreateUser, db : Session = Depends(get_db)):
     existing_user = db.query(models.User).filter(
         models.User.email == user.email
