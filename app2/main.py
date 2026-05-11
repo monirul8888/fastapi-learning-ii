@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends
 
-from .routers import student, user
+from .routers import student, user, auth
 from . import models, schemas
 from .database import get_db, engine
 from sqlalchemy.orm import Session
@@ -11,6 +11,7 @@ models.Base.metadata.create_all(bind = engine)
 
 app.include_router(student.router)
 app.include_router(user.router)
+app.include_router(auth.router)
 
 
 
