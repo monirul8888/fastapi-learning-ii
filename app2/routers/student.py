@@ -5,7 +5,8 @@ from sqlalchemy.orm import Session
 from typing import List
 
 router = APIRouter(
-    prefix="/students"
+    prefix="/students",
+    tags=["Students"]
 )
 
 

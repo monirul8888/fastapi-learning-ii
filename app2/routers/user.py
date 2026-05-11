@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 from .. import utils
 
 router = APIRouter(
-    prefix="/user"
+    prefix="/user",
+    tags=["Users"]
 )
 
 @router.post("/", response_model=schemas.UserResponse)
