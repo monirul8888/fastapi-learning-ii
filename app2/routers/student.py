@@ -16,7 +16,7 @@ router = APIRouter(
 @router.get("/", response_model=List[schemas.StudentResponse])
 def get_students(
     db: Session = Depends(get_db),
-    current_user: schemas.TokenData = Depends(oauth2.get_current_user)
+    current_user: models.User = Depends(oauth2.get_current_user)
 ):
     students = db.query(models.Student2).all()
     return students
@@ -26,7 +26,7 @@ def get_students(
 def get_student_by_id(
     id: int,
     db: Session = Depends(get_db),
-    current_user: schemas.TokenData = Depends(oauth2.get_current_user)
+    current_user: models.User = Depends(oauth2.get_current_user)
 ):
     student = db.query(models.Student2).filter(models.Student2.id == id).first()
 
@@ -43,7 +43,7 @@ def get_student_by_id(
 def create_student(
     student: schemas.CreateStudent,
     db: Session = Depends(get_db),
-    current_user: schemas.TokenData = Depends(oauth2.get_current_user)
+    current_user: models.User = Depends(oauth2.get_current_user)
 ):
     new_student = models.Student2(**student.model_dump())
 
