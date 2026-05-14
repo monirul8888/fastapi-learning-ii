@@ -1,9 +1,9 @@
 from fastapi import FastAPI, Depends
-
 from .routers import student, user, auth
 from . import models, schemas
 from .database import get_db, engine
 from sqlalchemy.orm import Session
+
 
 
 app = FastAPI()
